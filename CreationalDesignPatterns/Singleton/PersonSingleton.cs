@@ -12,26 +12,43 @@ namespace Singleton
     /// </summary>
     public sealed class PersonSingleton
     {
-        private static int counter = 0;
-        private static PersonSingleton instance = null;
+        private int counter = 0;
+        /// <summary>
+        /// Thread Safe Singleton without using locks
+        /// </summary>
+        private static readonly Lazy<PersonSingleton> lazy = new Lazy<PersonSingleton>(() => new PersonSingleton());
+
+        /// <summary>
+        /// Explicit static constructor to tell C# compiler not to mark type as before field init.
+        /// </summary>
+        static PersonSingleton()
+        {
+        }
+        /// <summary>
+        /// Private constructor
+        /// </summary>
         private PersonSingleton()
         {
             counter++;
             Console.WriteLine("Counter Value " + counter.ToString());
         }
-       
-        public static PersonSingleton GetInstance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new PersonSingleton();
-                return instance;
-            }
-        }
+
+        /// <summary>
+        /// Public static property to get the object
+        /// </summary>
+        public static PersonSingleton GetInstance => lazy.Value;
+        /// <summary>
+        /// Instance method
+        /// </summary>
+        /// <param name="message"></param>
         public void PrintDetails(string message)
         {
-            Console.WriteLine(message);
+            for (int i = 0; i < counter; i++)
+                Console.WriteLine(message);
+
         }
     }
+
+    
+
 }
