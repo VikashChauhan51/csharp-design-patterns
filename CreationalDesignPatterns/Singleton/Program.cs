@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Singleton
 {
-   public class MyClass
+    public class MyClass
     {
         public void Print()
         {
@@ -25,6 +25,13 @@ namespace Singleton
         static void Main(string[] args)
         {
 
+            SimpleSingleton();
+            Console.ReadKey();
+
+
+        }
+        public static void SingletonFactorySample()
+        {
             Parallel.For(0, 10, i =>
             {
                 Demo s1 = Singleton<Demo>.Instance;
@@ -42,16 +49,28 @@ namespace Singleton
                     s3.Print();
                 }
             });
-            Console.ReadKey();
-
-           
         }
-        private static PersonSingleton SimpleSingleton()
+        private static void SimpleSingleton()
         {
-           
-         return PersonSingleton.GetInstance;
-          
+
+            Parallel.Invoke(
+   () => PrintTeacherDetails(),
+   () => PrintStudentdetails()
+   );
+
+
         }
-        
+
+        private static void PrintTeacherDetails()
+        {
+            PersonSingleton fromTeacher = PersonSingleton.GetInstance;
+            fromTeacher.PrintDetails("From Teacher");
+        }
+        private static void PrintStudentdetails()
+        {
+            PersonSingleton fromStudent = PersonSingleton.GetInstance;
+            fromStudent.PrintDetails("From Student");
+        }
+
     }
 }

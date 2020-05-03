@@ -12,7 +12,7 @@ namespace Singleton
     /// </summary>
     public sealed class PersonSingleton
     {
-        private int counter = 0;
+        private static int counter = 0;
         /// <summary>
         /// Thread Safe Singleton without using locks
         /// </summary>
